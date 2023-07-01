@@ -15,7 +15,10 @@ const tweegoFileName = isWindows ? 'tweego.exe' : 'tweego';
 const tweegoFilePath = path.join('.tweego', tweegoFileName);
 
 // arguments for build/start
-const args = process.argv.slice(2).join(' ');
+const bundledScriptPath = path.join(__dirname, 'dist', 'scripts', 'bundled.scripts.js');
+
+// add these paths to the args string
+const args = `${process.argv.slice(2).join(' ')} ${bundledScriptPath}`;
 
 // add this block of code to create the dist directory if it does not exist
 const outputDir = path.resolve(__dirname, 'dist');
