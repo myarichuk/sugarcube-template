@@ -22,6 +22,13 @@ if (fs.existsSync('./src/assets')) {
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 export default {
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    compress: true,
+    port: 8080,
+  },  
   mode: isDevelopment ? 'development' : 'production',
   devtool: isDevelopment ? 'inline-source-map' : false,
   entry: './src/scripts/index.ts',
@@ -64,7 +71,7 @@ export default {
       patterns: copyRules,
     }),
     new MiniCssExtractPlugin({
-      filename: '../styles/styles.css',
+      filename: '../styles/bundled.styles.css',
     }),
   ],
 };

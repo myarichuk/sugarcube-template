@@ -5,11 +5,12 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "build": "cross-env NODE_ENV=production && ts-node setup-tweego.ts && webpack --mode production && ts-node ./run-tweego.ts src/story -o dist/index.html --head=src/head_content.html",
-    "start": "cross-env NODE_ENV=development && ts-node setup-tweego.ts && webpack --mode development && ts-node ./run-tweego.ts src/story -o dist/index.html --head=src/head_content.html && webpack --mode development --watch",
+    "build": "cross-env NODE_ENV=production && node setup-tweego.js && webpack --mode production && node ./run-tweego.js src/story -o dist/index.html --head=src/head_content.html",
+    "start": "cross-env NODE_ENV=development && node setup-tweego.js && webpack --mode development && node ./run-tweego.js src/story -o dist/index.html --head=src/head_content.html && concurrently \"npm:watch\" \"webpack serve --open --config webpack.config.js\"",
     "test": "jest",
     "lint": "eslint src --ext .ts,.tsx",
-    "install-tweego": "ts-node setup-tweego.ts"
+    "watch": "chokidar \"src/story/**/*.twee\" -c \"node run-tweego.js src/story -o dist/index.html --head=src/head_content.html\"",
+    "install-tweego": "node setup-tweego.js"
   },
   "keywords": [
     "twine",
@@ -25,6 +26,8 @@
     "@types/twine-sugarcube": "^2.36.5",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^8.2.0",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
@@ -33,6 +36,7 @@
     "html-webpack-plugin": "^5.5.3",
     "jest": "^29.5.0",
     "mini-css-extract-plugin": "^2.7.6",
+    "node-fetch": "^3.3.1",
     "node-sass": "^9.0.0",
     "sass": "^1.63.6",
     "sass-loader": "^13.3.2",
@@ -40,11 +44,9 @@
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
+    "unzipper": "^0.10.14",
     "webpack": "^5.88.1",
-    "webpack-cli": "^5.1.4"
-  },
-  "dependencies": {
-    "node-fetch": "^3.3.1",
-    "unzipper": "^0.10.14"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }
