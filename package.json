@@ -6,10 +6,11 @@
   "main": "index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production && node setup-tweego.js && webpack --mode production && node ./run-tweego.js src/story -o dist/index.html --head=src/head_content.html",
-    "start": "cross-env NODE_ENV=development && node setup-tweego.js && webpack --mode development && node ./run-tweego.js src/story -o dist/index.html --head=src/head_content.html && concurrently \"npm:watch\" \"webpack serve --open --config webpack.config.js\"",
+    "start": "cross-env NODE_ENV=development && node setup-tweego.js && webpack --mode development && node ./run-tweego.js src/story -o dist/index.html --head=src/head_content.html && concurrently \"npm:watch-tweego\" \"npm:watch-scripts\" \"webpack serve --open --config webpack.config.js\"",
     "test": "jest",
     "lint": "eslint src --ext .ts,.tsx",
-    "watch": "chokidar \"src/story/**/*.twee\" -c \"node run-tweego.js src/story -o dist/index.html --head=src/head_content.html\"",
+    "watch-tweego": "chokidar \"src/story/**/*.twee\" -c \"node run-tweego.js src/story -o dist/index.html --head=src/head_content.html\"",
+    "watch-scripts": "webpack --watch --mode development",
     "install-tweego": "node setup-tweego.js"
   },
   "keywords": [
