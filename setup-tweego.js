@@ -10,14 +10,32 @@ import path from 'path';
 
 const asyncPipeline = promisify(pipeline);
 
-const version = '2.1.1'; // adjust version as needed
 const dest = './.tweego';
 const osPlatform = os.platform();
-const isWindows = osPlatform === 'win32';
-const osVersion = isWindows ? 'windows-x64' : 'linux-x64';
-const tweegoFileName = isWindows ? 'tweego.exe' : 'tweego';
+const osArch = os.arch();
+const version = '2.1.1'; // adjust version as needed
+
+let tweegoFileName, url;
+
+switch(osPlatform) {
+    case 'win32':
+        tweegoFileName = 'tweego.exe';
+        url = `https://github.com/tmedwards/tweego/releases/download/v${version}/tweego-${version}-windows-${osArch}.zip`;
+        break;
+    case 'darwin':
+        tweegoFileName = 'tweego';
+        url = `https://github.com/tmedwards/tweego/releases/download/v${version}/tweego-${version}-macos-${osArch}.zip`;
+        break;
+    case 'linux':
+        tweegoFileName = 'tweego';
+        url = `https://github.com/tmedwards/tweego/releases/download/v${version}/tweego-${version}-linux-${osArch}.zip`;
+        break;
+    default:
+        console.log('Unsupported platform');
+        process.exit(1);
+}
+
 const tweegoFilePath = path.join(dest, tweegoFileName);
-const url = `https://github.com/tmedwards/tweego/releases/download/v${version}/tweego-${version}-${osVersion}.zip`;
 
 // Check if the tweego file exists
 fs.access(tweegoFilePath)
@@ -25,10 +43,10 @@ fs.access(tweegoFilePath)
     // Check if the file is for the correct OS
     fs.readFile(tweegoFilePath, 'utf-8')
       .then(content => {
-        if (isWindows && !content.includes('This program cannot be run in DOS mode')) {
+        if (osPlatform === 'win32' && !content.includes('This program cannot be run in DOS mode')) {
           console.log('Incorrect OS version detected. Redownloading.');
           downloadTweego();
-        } else if (!isWindows && content.includes('This program cannot be run in DOS mode')) {
+        } else if (osPlatform !== 'win32' && content.includes('This program cannot be run in DOS mode')) {
           console.log('Incorrect OS version detected. Redownloading.');
           downloadTweego();
         } else {
