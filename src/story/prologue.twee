@@ -1,0 +1,7 @@
+::StoryTitle
+My Story
+
+:: Start
+Hello, world!
+
+<<hello "Player">>
