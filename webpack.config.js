@@ -28,6 +28,7 @@ export default {
     },
     compress: true,
     port: 8080,
+    https:true
   },  
   mode: isDevelopment ? 'development' : 'production',
   devtool: isDevelopment ? 'inline-source-map' : false,
