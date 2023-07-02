@@ -118,10 +118,11 @@ Sugarcube allows you to create custom macros using JavaScript, which can then be
 2. Write your custom macro in that file. Here's an example:
 
 ```ts
-import { Macro } from "twine-sugarcube";
+import { MacroContext } from "twine-sugarcube";
+import { CustomStoryVariables } from "./common";
 
 Macro.add('myCustomMacro', {
-    handler: function() {
+    handler: function (this: MacroContext) {
         // Your macro code goes here
         this.output('Hello from my custom macro!');
     }
@@ -131,9 +132,10 @@ For CommonJS modules, use the `require` syntax instead:
 
 ```js
 const Macro = require("twine-sugarcube").Macro;
+const CustomStoryVariables = require("common).CustomStoryVariables;
 
 Macro.add('myCustomMacro', {
-    handler: function() {
+    handler: function (this: MacroContext) {
         // Your macro code goes here
         this.output('Hello from my custom macro!');
     }
